@@ -48,8 +48,7 @@ class GridWorldMBSolver:
         time_start = int(round(time() * 1000))
         for i in range(epochs):
             print(f"Training epoch {i + 1}")
-            reward_episode, win_episode = self.train_one_epoch(
-                start_pos=start_pos)
+            reward_episode, win_episode = self.train_one_epoch(start_pos=start_pos)
             total_reward += reward_episode
             game_win[i] = win_episode
             reward_history[i] = reward_episode
@@ -65,8 +64,7 @@ class GridWorldMBSolver:
         print(f"winning percentage = {game_win / (epochs // segment)}")
 
         if plot:
-            fig, axes = plt.subplots(
-                2, 1, figsize=(5, 4), dpi=200, sharex="all")
+            fig, axes = plt.subplots(2, 1, figsize=(5, 4), dpi=200, sharex="all")
             axes[0].plot(
                 np.arange(len(total_reward_history)),
                 total_reward_history,
@@ -115,6 +113,7 @@ class GridWorldMBSolver:
         return total_reward
 
 
+# Step 0:
 # def run(epochs, plot):
 #     np.random.seed(42)
 #     problem = GridWorld(

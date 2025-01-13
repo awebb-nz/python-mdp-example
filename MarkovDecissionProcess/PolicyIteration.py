@@ -1,9 +1,41 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numba
+import numpy as np
+
+# Step 2:
+# @numba.jit("float64(float64[:])", nopython=True, cache=True)
+# def sum_with_signature_and_caching(arr):
+#     total = 0
+#     for i in arr:
+#         total += i
+#     return total
+#
+#
+# @numba.jit(nopython=True)
+# def sum_reduction(arr):
+#     total = 0
+#     for i in numba.prange(len(arr)):
+#         total += arr[i]
+#     return total
+#
+#
+# @numba.jit
+# def sum_array(arr):
+#     result = 0
+#     for item in arr:
+#         result += item
+#     return result
 
 
 class PolicyIteration:
-    def __init__(self, reward_function, transition_model, gamma, init_policy=None, init_value=None):
+    def __init__(
+        self,
+        reward_function,
+        transition_model,
+        gamma,
+        init_policy=None,
+        init_value=None,
+    ):
         self.num_states = transition_model.shape[0]
         self.num_actions = transition_model.shape[1]
         self.reward_function = np.nan_to_num(reward_function)
@@ -26,7 +58,9 @@ class PolicyIteration:
             temp = self.values[s]
             a = self.policy[s]
             p = self.transition_model[s, a]
-            self.values[s] = self.reward_function[s] + self.gamma * np.sum(p * self.values)
+            self.values[s] = self.reward_function[s] + self.gamma * np.sum(
+                p * self.values
+            )
             delta = max(delta, abs(temp - self.values[s]))
         return delta
 
@@ -72,15 +106,32 @@ class PolicyIteration:
         # print(f'policy change = {policy_change_history}')
 
         if plot is True:
-            fig, axes = plt.subplots(2, 1, figsize=(3.5, 4), sharex='all', dpi=200)
-            axes[0].plot(np.arange(len(eval_count_history)), eval_count_history, marker='o', markersize=4, alpha=0.7,
-                         color='#2ca02c', label='# sweep in \npolicy evaluation\n' + r'$\gamma =$' + f'{self.gamma}')
+            fig, axes = plt.subplots(2, 1, figsize=(3.5, 4), sharex="all", dpi=200)
+            axes[0].plot(
+                np.arange(len(eval_count_history)),
+                eval_count_history,
+                marker="o",
+                markersize=4,
+                alpha=0.7,
+                color="#2ca02c",
+                label="# sweep in \npolicy evaluation\n"
+                + r"$\gamma =$"
+                + f"{self.gamma}",
+            )
             axes[0].legend()
 
-            axes[1].plot(np.arange(len(policy_change_history)), policy_change_history, marker='o',
-                         markersize=4, alpha=0.7, color='#d62728',
-                         label='# policy updates in \npolicy improvement\n' + r'$\gamma =$' + f'{self.gamma}')
-            axes[1].set_xlabel('Epoch')
+            axes[1].plot(
+                np.arange(len(policy_change_history)),
+                policy_change_history,
+                marker="o",
+                markersize=4,
+                alpha=0.7,
+                color="#d62728",
+                label="# policy updates in \npolicy improvement\n"
+                + r"$\gamma =$"
+                + f"{self.gamma}",
+            )
+            axes[1].set_xlabel("Epoch")
             axes[1].legend()
             plt.tight_layout()
             plt.show()
