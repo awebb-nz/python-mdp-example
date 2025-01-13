@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 
+PLOT = False
 
 
 class GridWorldMCSolver:
@@ -123,6 +124,6 @@ class GridWorldMCSolver:
 np.random.seed(41)
 problem = GridWorld('data/world02.csv', reward={0: -0.04, 1: 10.0, 2: -2.5, 3: np.NaN}, random_rate=0.2)
 problem_solver = GridWorldMCSolver(problem, MCLearner, epsilon=1.0, xi=0.99, initial_q=0.0)
-problem_solver.train(1000, start_pos=(5, 3), plot=True)
+problem_solver.train(1000, start_pos=(5, 3), plot=PLOT)
 
 

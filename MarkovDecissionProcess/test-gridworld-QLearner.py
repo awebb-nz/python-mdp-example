@@ -7,6 +7,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import FormatStrFormatter
 
+PLOT = False
 
 class GridWorldQSolver:
     def __init__(self, problem, learner_class, epsilon=0.9, xi=0.99):
@@ -92,6 +93,6 @@ class GridWorldQSolver:
 np.random.seed(42)
 problem = GridWorld('data/world02.csv', reward={0: -0.04, 1: 10.0, 2: -2.5, 3: np.NaN}, random_rate=0.2)
 problem_solver = GridWorldQSolver(problem, QLearner, epsilon=1.0, xi=0.99)
-problem_solver.train(1000, start_pos=(5, 3), plot=True)
+problem_solver.train(1000, start_pos=(5, 3), plot=PLOT)
 
 
