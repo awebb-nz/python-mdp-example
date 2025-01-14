@@ -135,6 +135,7 @@ class GridWorldMBSolver:
 #
 #     plots = not args.noplots
 #     epochs = args.epochs
+#     print(f"Training for {epochs} epochs. Plotting: {plots}")
 #     run(epochs, plots)
 
 np.random.seed(42)
@@ -144,4 +145,5 @@ problem = GridWorld(
     random_rate=0.2,
 )
 problem_solver = GridWorldMBSolver(problem, ADPLearner, epsilon=1.0, xi=0.99)
+print("Training for 1000 epochs")
 problem_solver.train(1000, start_pos=(5, 3), plot=True)
